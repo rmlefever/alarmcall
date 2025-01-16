@@ -1,5 +1,3 @@
-# active 4.0
-
 import alarminfo
 import time
 from twilio.rest import Client
@@ -130,6 +128,9 @@ print("Press CTRL+C to exit")
 try:
     while 1:
         if GPIO.input(gpio_pin) == True and act_state == 0: # if alarm is not active and switch is pressed
+            # check if it really is still active
+            time.sleep(1)
+            if GPIO.input(gpio_pin) == True and act_state == 0:
                 sendbody = bodyAct  # send alarm activated message
                 print(sendbody)
                 sendsms()
@@ -170,4 +171,3 @@ try:
 except KeyboardInterrupt:  # If CTRL+C is pressed, exit cleanly
     print("\n\nExiting\n\n")
     GPIO.cleanup()
-
